@@ -41,7 +41,7 @@ export function DataTable<TData, TValue>({ columns, data, rowIcon }: DataTablePr
                             {rowIcon && <TableHead className="w-16"></TableHead>}
                             {headerGroup.headers.map((header) => {
                                 return (
-                                    <TableHead key={header.id}>
+                                    <TableHead key={header.id} className="p-2">
                                         {header.isPlaceholder
                                             ? null
                                             : flexRender(header.column.columnDef.header, header.getContext())}
@@ -68,7 +68,7 @@ export function DataTable<TData, TValue>({ columns, data, rowIcon }: DataTablePr
                                     .getRowModel()
                                     .rows[rowIndex]?.getVisibleCells()
                                     .map((cell) => (
-                                        <TableCell key={cell.id}>
+                                        <TableCell key={cell.id} className="p-2">
                                             {flexRender(cell.column.columnDef.cell, cell.getContext())}
                                         </TableCell>
                                     ))}
