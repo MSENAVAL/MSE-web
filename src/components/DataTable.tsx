@@ -16,7 +16,7 @@ interface PaginationProps {
 
 export function DataTable<TData, TValue>({ columns, data, rowIcon }: DataTableProps<TData, TValue>) {
     const [currentPage, setCurrentPage] = useState(1);
-    const rowsPerPage = 10;
+    const rowsPerPage = 9;
 
     const table = useReactTable({
         data,
