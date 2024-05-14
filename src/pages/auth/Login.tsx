@@ -13,7 +13,7 @@ import { toast } from "react-toastify";
 const Login = () => {
     const { login } = useAuth();
     const navigate = useNavigate();
-    const [email, setEmail] = useState("teste@teste.com");
+    const [email, setEmail] = useState("Admin02@teste.com");
     const [password, setPassword] = useState("T@ste1234");
     const [showPassword, setShowPassword] = useState(false);
     const [loading, setLoading] = useState(false);

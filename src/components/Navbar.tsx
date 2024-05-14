@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { UserPlus, FileText, LogOut, ChevronLeft, ChevronRight } from "react-feather";
 import { Building, Ship } from "lucide-react";
 import { useAuth } from "@/context/authContext";
