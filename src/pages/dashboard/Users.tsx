@@ -1,8 +1,5 @@
-import Header from "@/components/Header";
-import Navbar from "@/components/Navbar";
-
 const Users = () => {
-    return <h1 color="#333">Usuário</h1>;
+    return <h1 className="text-bold ml-4 text-xl font-semibold text-primary-blue">Usuários cadastrados</h1>;
 };
 
 export default Users;
