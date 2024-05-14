@@ -5,6 +5,7 @@ import Login from "@/pages/auth/Login";
 import Terms from "@/pages/auth/Terms";
 import ErrorPage from "@/pages/ErrorPage";
 import Users from "@/pages/dashboard/Users";
+import DashboardLayout from "@/layouts/DashboardLayout";
 
 const AppRoutes = () => {
     const { isAuthenticated } = useAuth();
@@ -16,8 +17,10 @@ const AppRoutes = () => {
             {isAuthenticated && (
                 <>
                     <Route path="/terms" element={<Terms />} />
-                    <Route path="/users" element={<Users />} />
-                    <Route path="*" element={<ErrorPage />} />
+                    <Route element={<DashboardLayout />}>
+                        <Route path="/users" element={<Users />} />
+                        <Route path="*" element={<ErrorPage />} />
+                    </Route>
                 </>
             )}
         </Routes>

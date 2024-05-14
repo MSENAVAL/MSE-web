@@ -13,7 +13,7 @@ const NavItem = ({ icon, label, onClick }: NavItemProps) => {
     return (
         <div
             onClick={onClick}
-            className="hover:border-l-secondary-red hover:text-secondary-red flex cursor-pointer items-center px-4 py-4 hover:w-[95%] hover:rounded-r-full hover:border-l-4 hover:bg-white"
+            className="flex cursor-pointer items-center px-4 py-4 hover:w-[95%] hover:rounded-r-full hover:border-l-4 hover:border-l-secondary-red hover:bg-white hover:text-secondary-red"
         >
             {icon}
             <div className="ml-2">{label}</div>
@@ -25,7 +25,7 @@ const NavItemCollapsed = ({ icon, onClick }: NavItemProps) => {
     return (
         <div
             onClick={onClick}
-            className="hover:text-secondary-red flex cursor-pointer items-center px-4 py-4 hover:rounded-full hover:bg-white"
+            className="flex cursor-pointer items-center px-4 py-4 hover:rounded-full hover:bg-white hover:text-secondary-red"
         >
             {icon}
         </div>
@@ -43,9 +43,14 @@ const NavbarToggle = ({ collapsed, onClick }: { collapsed: boolean; onClick: () 
     );
 };
 
-const Navbar = () => {
+const Navbar = ({
+    collapsed,
+    setCollapsed,
+}: {
+    collapsed: boolean;
+    setCollapsed: React.Dispatch<React.SetStateAction<boolean>>;
+}) => {
     const { logout } = useAuth();
-    const [collapsed, setCollapsed] = useState(false);
 
     useEffect(() => {
         const handleResize = () => {
@@ -71,7 +76,7 @@ const Navbar = () => {
 
     return (
         <div
-            className={`bg-primary-blue fixed left-1 top-32 h-96 rounded-2xl text-white transition-all duration-300 ${collapsed ? "w-16" : "w-[170px]"}`}
+            className={`fixed left-1 top-32 h-96 rounded-2xl bg-primary-blue text-white transition-all duration-300 ${collapsed ? "w-16" : "w-[170px]"}`}
         >
             <NavbarToggle collapsed={collapsed} onClick={toggleCollapse} />
             {!collapsed ? (
