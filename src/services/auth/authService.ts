@@ -1,7 +1,10 @@
-import { LoginResponseData } from "@/interfaces/authTypes";
+import { LoginResponseData, LoginResponseError } from "@/interfaces/authTypes";
 import api from "../api";
 
-export const authenticate = async (email: string, password: string): Promise<LoginResponseData> => {
+export const authenticate = async (
+    email: string,
+    password: string,
+): Promise<LoginResponseData | LoginResponseError> => {
     try {
         const response = await api.post("/auth/login", {
             email,
@@ -9,8 +12,9 @@ export const authenticate = async (email: string, password: string): Promise<Log
         });
 
         return response.data;
-    } catch (error) {
-        throw error;
+    } catch (error: Error | any) {
+        console.log("error", error);
+        return { message: error.response.data };
     }
 };
 

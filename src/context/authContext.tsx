@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { authenticate } from "@/services/auth/authService";
-import { LoginResponseData } from "@/interfaces/authTypes";
+import { LoginResponseData, LoginResponseError } from "@/interfaces/authTypes";
 import { useNavigate } from "react-router-dom";
 
 const AuthContext = createContext({
@@ -8,7 +8,7 @@ const AuthContext = createContext({
     userData: {} as LoginResponseData | null,
     setUserData: (data: LoginResponseData) => {},
     login: async (email: string, password: string) => {
-        return {} as LoginResponseData;
+        return {} as LoginResponseData | LoginResponseError;
     },
     logout: () => {},
 });

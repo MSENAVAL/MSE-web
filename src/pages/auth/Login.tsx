@@ -4,15 +4,16 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import ButtonLoading from "@/components/ButtonLoading";
-import { LoginResponseData } from "@/interfaces/authTypes";
+import { LoginResponseData, LoginResponseError } from "@/interfaces/authTypes";
 import { useAuth } from "@/context/authContext";
 import { Eye, EyeOff } from "react-feather";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const Login = () => {
     const { login } = useAuth();
     const navigate = useNavigate();
-    const [email, setEmail] = useState("Admin02@teste.com");
+    const [email, setEmail] = useState("teste@teste.com");
     const [password, setPassword] = useState("T@ste1234");
     const [showPassword, setShowPassword] = useState(false);
     const [loading, setLoading] = useState(false);
@@ -21,8 +22,20 @@ const Login = () => {
         e.preventDefault();
         setLoading(true);
 
-        const response: LoginResponseData = await login(email, password);
+        const response: LoginResponseData | LoginResponseError = await login(email, password);
         setLoading(false);
+
+        if (!response.token) {
+            if (response.message) {
+                toast.error(response.message, {
+                    position: "top-right",
+                });
+            } else {
+                toast.error("Usuário ou senha inválidos", {
+                    position: "top-right",
+                });
+            }
+        }
 
         if (response.token) {
             navigate("/terms");
@@ -30,7 +43,7 @@ const Login = () => {
     };
 
     return (
-        <div className="bg-primary-blue grid h-screen grid-cols-1 md:grid-cols-2">
+        <div className="grid h-screen grid-cols-1 bg-primary-blue md:grid-cols-2">
             <div className="flex flex-col items-center justify-center gap-24">
                 <div className="mb-8 flex items-center justify-center">
                     <img src={logo} alt="Logo" className="max-w-full md:min-w-[120%] lg:min-w-[130%]" />
@@ -52,7 +65,6 @@ const Login = () => {
                                 aria-placeholder="*********"
                                 placeholder="*********"
                                 className="h-12 rounded-full bg-white px-4 pr-10 text-base"
-                                //style={!showPassword || !password ? { fontSize: "2rem", paddingTop: "0.8rem" } : {}}
                                 style={
                                     showPassword && password.length === 0
                                         ? { fontSize: "2rem", paddingTop: "1.5rem" }
@@ -74,9 +86,9 @@ const Login = () => {
                             </button>
                         </div>
 
-                        <div className="mt-2 flex justify-between px-1">
+                        <div className="mt-3 flex justify-between px-1">
                             <div className="flex items-center">
-                                <Checkbox id="terms" className=" rounded-none border-white" />
+                                <Checkbox id="terms" className="custom-checkbox border-white" />
                                 <span className="ml-2 text-sm text-white">Lembrar da senha</span>
                             </div>
                             <a href="#" className="text-sm text-white">
@@ -84,10 +96,10 @@ const Login = () => {
                             </a>
                         </div>
                         {loading ? (
-                            <ButtonLoading className="bg-secondary-red hover:bg-secondary-red/80 mt-8 h-12 rounded-full font-sans text-base font-bold" />
+                            <ButtonLoading className="mt-8 h-12 rounded-full bg-secondary-red font-sans text-base font-bold hover:bg-secondary-red/80" />
                         ) : (
                             <Button
-                                className="bg-secondary-red hover:bg-secondary-red/80 mt-8 h-12 rounded-full font-sans text-base font-bold"
+                                className="mt-8 h-12 rounded-full bg-secondary-red font-sans text-base font-bold hover:bg-secondary-red/80"
                                 type="submit"
                             >
                                 Entrar
@@ -96,7 +108,7 @@ const Login = () => {
                     </form>
                 </main>
             </div>
-            <div className="bg-background hidden bg-cover bg-no-repeat md:block" />
+            <div className="hidden bg-background bg-cover bg-no-repeat md:block" />
         </div>
     );
 };
