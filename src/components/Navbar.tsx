@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { UserPlus, FileText, LogOut, ChevronLeft, ChevronRight } from "react-feather";
 import { Building, Ship } from "lucide-react";
 import { useAuth } from "@/context/authContext";
+import { useNavigate } from "react-router-dom";
 
 interface NavItemProps {
     icon: JSX.Element;
@@ -51,6 +52,7 @@ const Navbar = ({
     setCollapsed: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
     const { logout } = useAuth();
+    const navigate = useNavigate();
 
     useEffect(() => {
         const handleResize = () => {
@@ -81,7 +83,7 @@ const Navbar = ({
             <NavbarToggle collapsed={collapsed} onClick={toggleCollapse} />
             {!collapsed ? (
                 <div className="mt-8 py-8">
-                    <NavItem icon={<UserPlus size={20} />} label="Cadastros" />
+                    <NavItem icon={<UserPlus size={20} />} label="Cadastros" onClick={() => navigate("/users")} />
                     <NavItem icon={<Building size={20} />} label="Clientes" />
                     <NavItem icon={<FileText size={20} />} label="Relatórios" />
                     <NavItem icon={<Ship size={20} />} label="Navios" />
@@ -89,7 +91,7 @@ const Navbar = ({
                 </div>
             ) : (
                 <div className="mt-8 flex w-full flex-col items-center justify-center py-8">
-                    <NavItemCollapsed icon={<UserPlus size={20} />} />
+                    <NavItemCollapsed icon={<UserPlus size={20} />} onClick={() => navigate("/users")} />
                     <NavItemCollapsed icon={<Building size={20} />} />
                     <NavItemCollapsed icon={<FileText size={20} />} />
                     <NavItemCollapsed icon={<Ship size={20} />} />

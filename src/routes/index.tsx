@@ -1,11 +1,12 @@
 import { Route, Routes, Navigate } from "react-router-dom";
 import { useAuth } from "@/context/authContext";
 
+import DashboardLayout from "@/layouts/DashboardLayout";
 import Login from "@/pages/auth/Login";
 import Terms from "@/pages/auth/Terms";
 import ErrorPage from "@/pages/ErrorPage";
-import Users from "@/pages/dashboard/Users";
-import DashboardLayout from "@/layouts/DashboardLayout";
+import Users from "@/pages/dashboard/users";
+import NewUser from "@/pages/dashboard/users/newUser";
 
 const AppRoutes = () => {
     const { isAuthenticated } = useAuth();
@@ -19,6 +20,7 @@ const AppRoutes = () => {
                     <Route path="/terms" element={<Terms />} />
                     <Route element={<DashboardLayout />}>
                         <Route path="/users" element={<Users />} />
+                        <Route path="/users/register" element={<NewUser />} />
                         <Route path="*" element={<ErrorPage />} />
                     </Route>
                 </>
