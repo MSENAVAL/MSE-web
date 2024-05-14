@@ -1,6 +1,6 @@
 # MSE - Naval Consultancy & Survey
 
-Esse projeto refere-se à MSE, uma empresa de engenharia naval que atua nas áreas técnicas e operacionais do setor marítimo, fluvial e portuário.
+Esse projeto refere-se a um painel administrativo para a MSE, uma empresa de engenharia naval que atua nas áreas técnicas e operacionais do setor marítimo, fluvial e portuário.
 
 ## Como rodar o projeto
 
