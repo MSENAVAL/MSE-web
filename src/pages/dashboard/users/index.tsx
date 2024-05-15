@@ -1,107 +1,128 @@
 import { DataTable } from "@/components/DataTable";
-import { User, userColumns } from "../tables/userColumns";
+import { userColumns } from "../tables/userColumns";
+import { listUsers } from "@/services/users/userService";
+import { User } from "@/interfaces/user";
 import UserIcon from "@/assets/user-icon.svg";
 import { DotIcon, PlusIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Badge } from "@/components/ui/badge";
+import { Skeleton } from "@/components/ui/skeleton";
+import { SkeletonDataTable } from "@/components/SkeletonDataTable";
 
 const Users = () => {
     const navigate = useNavigate();
+    const [users, setUsers] = useState<User[]>([]);
     const [selectedUser, setSelectedUser] = useState<User | null>(null);
     const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+    const [isLoading, setIsLoading] = useState(false);
 
-    const data: User[] = [
-        {
-            id: 1,
-            nome: "John Doe",
-            email: "email@email.com",
-            setor: "Operacional",
-            revisor: true,
-            status: true,
-        },
-        {
-            id: 2,
-            nome: "Jane Doe",
-            email: "email@email.com",
-            setor: "Engenharia",
-            revisor: false,
-            status: false,
-        },
-        {
-            id: 3,
-            nome: "John Doe",
-            email: "email@email.com",
-            setor: "Operacional",
-            revisor: true,
-            status: true,
-        },
-        {
-            id: 4,
-            nome: "Jane Doe",
-            email: "email@email.com",
-            setor: "Engenharia",
-            revisor: false,
-            status: false,
-        },
-        {
-            id: 5,
-            nome: "John Doe",
-            email: "email@email.com",
-            setor: "Operacional",
-            revisor: true,
-            status: true,
-        },
-        {
-            id: 6,
-            nome: "Jane Doe",
-            email: "email@email.com",
-            setor: "Engenharia",
-            revisor: false,
-            status: false,
-        },
-        {
-            id: 7,
-            nome: "John Doe",
-            email: "email@email.com",
-            setor: "Operacional",
-            revisor: true,
-            status: true,
-        },
-        {
-            id: 8,
-            nome: "Jane Doe",
-            email: "email@email.com",
-            setor: "Engenharia",
-            revisor: false,
-            status: false,
-        },
-        {
-            id: 9,
-            nome: "John Doe",
-            email: "email@email.com",
-            setor: "Operacional",
-            revisor: true,
-            status: true,
-        },
-        {
-            id: 10,
-            nome: "Jane Doe",
-            email: "email@email.com",
-            setor: "Engenharia",
-            revisor: false,
-            status: false,
-        },
-        {
-            id: 11,
-            nome: "John Doe",
-            email: "email@email.com",
-            setor: "Operacional",
-            revisor: true,
-            status: true,
-        },
-    ];
+    useEffect(() => {
+        const fetchUsers = async () => {
+            setIsLoading(true);
+            const users: User[] = await listUsers();
+
+            if (users) setUsers(users);
+
+            setIsLoading(false);
+        };
+
+        if (users.length === 0) fetchUsers();
+    }, []);
+
+    console.log("users", users);
+
+    // const data: User[] = [
+    //     {
+    //         id: 1,
+    //         nome: "John Doe",
+    //         email: "email@email.com",
+    //         setor: "Operacional",
+    //         revisor: true,
+    //         status: true,
+    //     },
+    //     {
+    //         id: 2,
+    //         nome: "Jane Doe",
+    //         email: "email@email.com",
+    //         setor: "Engenharia",
+    //         revisor: false,
+    //         status: false,
+    //     },
+    //     {
+    //         id: 3,
+    //         nome: "John Doe",
+    //         email: "email@email.com",
+    //         setor: "Operacional",
+    //         revisor: true,
+    //         status: true,
+    //     },
+    //     {
+    //         id: 4,
+    //         nome: "Jane Doe",
+    //         email: "email@email.com",
+    //         setor: "Engenharia",
+    //         revisor: false,
+    //         status: false,
+    //     },
+    //     {
+    //         id: 5,
+    //         nome: "John Doe",
+    //         email: "email@email.com",
+    //         setor: "Operacional",
+    //         revisor: true,
+    //         status: true,
+    //     },
+    //     {
+    //         id: 6,
+    //         nome: "Jane Doe",
+    //         email: "email@email.com",
+    //         setor: "Engenharia",
+    //         revisor: false,
+    //         status: false,
+    //     },
+    //     {
+    //         id: 7,
+    //         nome: "John Doe",
+    //         email: "email@email.com",
+    //         setor: "Operacional",
+    //         revisor: true,
+    //         status: true,
+    //     },
+    //     {
+    //         id: 8,
+    //         nome: "Jane Doe",
+    //         email: "email@email.com",
+    //         setor: "Engenharia",
+    //         revisor: false,
+    //         status: false,
+    //     },
+    //     {
+    //         id: 9,
+    //         nome: "John Doe",
+    //         email: "email@email.com",
+    //         setor: "Operacional",
+    //         revisor: true,
+    //         status: true,
+    //     },
+    //     {
+    //         id: 10,
+    //         nome: "Jane Doe",
+    //         email: "email@email.com",
+    //         setor: "Engenharia",
+    //         revisor: false,
+    //         status: false,
+    //     },
+    //     {
+    //         id: 11,
+    //         nome: "John Doe",
+    //         email: "email@email.com",
+    //         setor: "Operacional",
+    //         revisor: true,
+    //         status: true,
+    //     },
+    // ];
 
     const handleNewUser = () => {
         navigate("register");
@@ -135,7 +156,7 @@ const Users = () => {
                 </div>
             </div>
             <div className="overflow-auto">
-                {data.map((user) => (
+                {users.map((user) => (
                     <div
                         key={user.id}
                         className="mb-4 flex cursor-pointer items-center justify-between rounded-lg bg-white p-4 shadow-md transition-colors hover:bg-gray-100"
@@ -182,7 +203,11 @@ const Users = () => {
                     </div>
                     <div className="flex items-center justify-center px-8 pb-8">
                         <div className="w-full">
-                            <DataTable columns={userColumns} data={data} rowIcon={UserIcon} />
+                            {isLoading ? (
+                                <SkeletonDataTable />
+                            ) : (
+                                <DataTable columns={userColumns} data={users} rowIcon={UserIcon} />
+                            )}
                         </div>
                     </div>
                 </div>

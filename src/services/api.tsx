@@ -9,7 +9,7 @@ const api = axios.create({
 });
 
 api.interceptors.request.use(async (config) => {
-    const token = localStorage.getItem("mseToken");
+    const token = localStorage.getItem("mseAuthToken");
 
     if (token) {
         config.headers.Authorization = `Bearer ${token}`;
