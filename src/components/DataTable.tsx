@@ -50,7 +50,7 @@ export function DataTable<TData extends BaseRow, TValue>({ columns, data, rowIco
                             {rowIcon && <TableHead className="w-16"></TableHead>}
                             {headerGroup.headers.map((header) => {
                                 return (
-                                    <TableHead key={header.id} className="p-2">
+                                    <TableHead key={header.id} className="p-0">
                                         {header.isPlaceholder
                                             ? null
                                             : flexRender(header.column.columnDef.header, header.getContext())}
