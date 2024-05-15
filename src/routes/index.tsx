@@ -7,6 +7,8 @@ import Terms from "@/pages/auth/Terms";
 import ErrorPage from "@/pages/ErrorPage";
 import Users from "@/pages/dashboard/users";
 import NewUser from "@/pages/dashboard/users/newUser";
+import UserProfile from "@/pages/dashboard/users/userProfile";
+import UpdateUser from "@/pages/dashboard/users/updateUser";
 
 const AppRoutes = () => {
     const { isAuthenticated } = useAuth();
@@ -21,6 +23,8 @@ const AppRoutes = () => {
                     <Route element={<DashboardLayout />}>
                         <Route path="/users" element={<Users />} />
                         <Route path="/users/register" element={<NewUser />} />
+                        <Route path="/users/:id" element={<UserProfile />} />
+                        <Route path="/users/:id/update" element={<UpdateUser />} />
                         <Route path="*" element={<ErrorPage />} />
                     </Route>
                 </>

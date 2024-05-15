@@ -108,7 +108,7 @@ const Login = () => {
                     </form>
                 </main>
             </div>
-            <div className="hidden bg-background bg-cover bg-no-repeat md:block" />
+            <div className="bg-backgroundMse hidden bg-cover bg-no-repeat md:block" />
         </div>
     );
 };

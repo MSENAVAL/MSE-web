@@ -1,12 +1,16 @@
 import { DataTable } from "@/components/DataTable";
 import { User, userColumns } from "../tables/userColumns";
 import UserIcon from "@/assets/user-icon.svg";
-import { PlusIcon } from "lucide-react";
+import { DotIcon, PlusIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Badge } from "@/components/ui/badge";
 
 const Users = () => {
     const navigate = useNavigate();
+    const [selectedUser, setSelectedUser] = useState<User | null>(null);
+    const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
 
     const data: User[] = [
         {
@@ -26,7 +30,7 @@ const Users = () => {
             status: false,
         },
         {
-            id: 1,
+            id: 3,
             nome: "John Doe",
             email: "email@email.com",
             setor: "Operacional",
@@ -34,7 +38,7 @@ const Users = () => {
             status: true,
         },
         {
-            id: 2,
+            id: 4,
             nome: "Jane Doe",
             email: "email@email.com",
             setor: "Engenharia",
@@ -42,7 +46,7 @@ const Users = () => {
             status: false,
         },
         {
-            id: 1,
+            id: 5,
             nome: "John Doe",
             email: "email@email.com",
             setor: "Operacional",
@@ -50,7 +54,7 @@ const Users = () => {
             status: true,
         },
         {
-            id: 2,
+            id: 6,
             nome: "Jane Doe",
             email: "email@email.com",
             setor: "Engenharia",
@@ -58,7 +62,7 @@ const Users = () => {
             status: false,
         },
         {
-            id: 1,
+            id: 7,
             nome: "John Doe",
             email: "email@email.com",
             setor: "Operacional",
@@ -66,7 +70,7 @@ const Users = () => {
             status: true,
         },
         {
-            id: 2,
+            id: 8,
             nome: "Jane Doe",
             email: "email@email.com",
             setor: "Engenharia",
@@ -74,7 +78,7 @@ const Users = () => {
             status: false,
         },
         {
-            id: 1,
+            id: 9,
             nome: "John Doe",
             email: "email@email.com",
             setor: "Operacional",
@@ -82,7 +86,7 @@ const Users = () => {
             status: true,
         },
         {
-            id: 2,
+            id: 10,
             nome: "Jane Doe",
             email: "email@email.com",
             setor: "Engenharia",
@@ -90,7 +94,7 @@ const Users = () => {
             status: false,
         },
         {
-            id: 1,
+            id: 11,
             nome: "John Doe",
             email: "email@email.com",
             setor: "Operacional",
@@ -103,9 +107,54 @@ const Users = () => {
         navigate("register");
     };
 
+    const handleRowClick = (user: User) => {
+        setSelectedUser(user);
+        navigate(`/users/${user.id}`, { state: { user } });
+    };
+
+    useEffect(() => {
+        const handleResize = () => setIsMobile(window.innerWidth <= 1100);
+        window.addEventListener("resize", handleResize);
+        return () => window.removeEventListener("resize", handleResize);
+    }, []);
+
+    const mobileTable = (
+        <div className="p-4">
+            <h1 className="text-bold mb-4 text-xl font-semibold text-primary-blue">Usuários Cadastrados</h1>
+            <div className="overflow-auto">
+                {data.map((user) => (
+                    <div
+                        key={user.id}
+                        className="mb-4 flex cursor-pointer items-center justify-between rounded-lg bg-white p-4 shadow-md transition-colors hover:bg-gray-100"
+                        onClick={() => handleRowClick(user)}
+                    >
+                        <div>
+                            <p className="font-semibold">{user.nome}</p>
+                            <p className="text-gray-600">{user.email}</p>
+                            <p className="text-gray-600">{user.setor}</p>
+                            <p className="text-gray-600">
+                                {user.revisor ? "Autorizado para revisar" : "Não autorizado para revisar"}
+                            </p>
+                        </div>
+                        <Badge
+                            className={`flex w-20 items-center rounded-full bg-opacity-35 p-0 ${user.status ? "hover:bg-#8EC742 hover:text-#365B03 bg-[#8EC742] text-[#365B03]" : "hover:bg-#FB101E hover:text-#790007 bg-[#FB101E] text-[#790007]"}`}
+                        >
+                            {user.status ? <DotIcon className="h-6 w-6 p-0" /> : <DotIcon className="h-6 w-6 p-0" />}
+                            {user.status ? "Ativo" : "Inativo"}
+                        </Badge>
+                    </div>
+                ))}
+            </div>
+        </div>
+    );
+
+    if (isMobile) {
+        return mobileTable;
+    }
+
     return (
         <>
-            <h1 className="text-bold ml-16 text-xl font-semibold text-primary-blue">Usuários cadastrados</h1>
+            <h1 className="text-bold ml-8 text-xl font-semibold text-primary-blue">Usuários cadastrados</h1>
 
             <div className="m-4 grid h-[95%] grid-cols-1 md:grid-cols-1 lg:grid-cols-4 xl:grid-cols-4">
                 <div className="col-span-3 m-4 mb-8 flex h-[90%] w-full flex-col rounded-2xl bg-[#F7F7F7]">

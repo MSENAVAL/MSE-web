@@ -1,8 +1,12 @@
 import { ColumnDef, flexRender, getCoreRowModel, useReactTable } from "@tanstack/react-table";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-interface DataTableProps<TData, TValue> {
+interface BaseRow {
+    id: number;
+}
+interface DataTableProps<TData extends BaseRow, TValue> {
     columns: ColumnDef<TData, TValue>[];
     data: TData[];
     rowIcon?: string;
@@ -14,7 +18,8 @@ interface PaginationProps {
     onPageChange: (page: number) => void;
 }
 
-export function DataTable<TData, TValue>({ columns, data, rowIcon }: DataTableProps<TData, TValue>) {
+export function DataTable<TData extends BaseRow, TValue>({ columns, data, rowIcon }: DataTableProps<TData, TValue>) {
+    const navigate = useNavigate();
     const [currentPage, setCurrentPage] = useState(1);
     const rowsPerPage = 9;
 
@@ -28,6 +33,10 @@ export function DataTable<TData, TValue>({ columns, data, rowIcon }: DataTablePr
 
     const handlePageChange = (page: number) => {
         setCurrentPage(page);
+    };
+
+    const handleRowClick = (user: TData) => {
+        navigate(`/users/${user.id}`, { state: { user } });
     };
 
     const paginatedData = data.slice((currentPage - 1) * rowsPerPage, currentPage * rowsPerPage);
@@ -58,6 +67,7 @@ export function DataTable<TData, TValue>({ columns, data, rowIcon }: DataTablePr
                             <TableRow
                                 key={rowIndex}
                                 className="cursor-pointer rounded-3xl border-none bg-white p-4 transition-colors hover:bg-primary-blue/10"
+                                onClick={() => handleRowClick(row)}
                             >
                                 {rowIcon && (
                                     <TableCell className="w-10">

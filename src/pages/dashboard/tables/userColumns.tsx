@@ -42,7 +42,7 @@ export const userColumns: ColumnDef<User>[] = [
             return (
                 <div className="flex  items-center">
                     <Badge
-                        className={`flex w-20 items-center rounded-full bg-opacity-35 p-0 ${isActive ? "bg-[#8EC742] text-[#365B03]" : "bg-[#FB101E] text-[#790007]"}`}
+                        className={`flex w-20 items-center rounded-full bg-opacity-35 p-0 ${isActive ? "hover:text-#365B03 hover:bg-#8EC742 bg-[#8EC742] text-[#365B03]" : "hover:bg-#FB101E hover:text-#790007 bg-[#FB101E] text-[#790007]"}`}
                     >
                         {isActive ? <DotIcon className="h-6 w-6 p-0" /> : <DotIcon className="h-6 w-6 p-0" />}
                         {isActive ? "Ativo" : "Inativo"}
