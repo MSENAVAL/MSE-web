@@ -42,9 +42,9 @@ export function DataTable<TData extends BaseRow, TValue>({ columns, data, rowIco
     const paginatedData = data.slice((currentPage - 1) * rowsPerPage, currentPage * rowsPerPage);
 
     return (
-        <div>
+        <div className="flex w-full overflow-y-auto">
             <Table>
-                <TableHeader className="border-b-3 border-black">
+                <TableHeader className="border-b-3 border-black font-sans text-xs">
                     {table.getHeaderGroups().map((headerGroup) => (
                         <TableRow key={headerGroup.id}>
                             {rowIcon && <TableHead className="w-16"></TableHead>}
@@ -66,11 +66,11 @@ export function DataTable<TData extends BaseRow, TValue>({ columns, data, rowIco
                         paginatedData.map((row, rowIndex) => (
                             <TableRow
                                 key={rowIndex}
-                                className="cursor-pointer rounded-3xl border-none bg-white p-4 transition-colors hover:bg-primary-blue/10"
+                                className={`cursor-pointer rounded-3xl border-none bg-white p-2 transition-colors hover:bg-primary-blue/10`}
                                 onClick={() => handleRowClick(row)}
                             >
                                 {rowIcon && (
-                                    <TableCell className="w-10">
+                                    <TableCell className={`w-10 font-sans ${window.innerWidth <= 1366 ? "p-2" : ""}`}>
                                         <img src={rowIcon} alt="Ícone" className="h-6 w-6" />
                                     </TableCell>
                                 )}
@@ -78,7 +78,7 @@ export function DataTable<TData extends BaseRow, TValue>({ columns, data, rowIco
                                     .getRowModel()
                                     .rows[rowIndex]?.getVisibleCells()
                                     .map((cell) => (
-                                        <TableCell key={cell.id} className="p-2">
+                                        <TableCell key={cell.id} className="p-0 font-sans text-xs">
                                             {flexRender(cell.column.columnDef.cell, cell.getContext())}
                                         </TableCell>
                                     ))}
@@ -86,7 +86,10 @@ export function DataTable<TData extends BaseRow, TValue>({ columns, data, rowIco
                         ))
                     ) : (
                         <TableRow>
-                            <TableCell colSpan={columns.length + (rowIcon ? 1 : 0)} className="h-24 text-center">
+                            <TableCell
+                                colSpan={columns.length + (rowIcon ? 1 : 0)}
+                                className="h-24 text-center font-sans"
+                            >
                                 Nenhum dado encontrado
                             </TableCell>
                         </TableRow>
@@ -103,7 +106,7 @@ const Pagination: React.FC<PaginationProps> = ({ currentPage, totalPages, onPage
     const pages = Array.from({ length: totalPages }, (_, i) => i + 1);
 
     return (
-        <div className="mt-4 flex items-center justify-center">
+        <div className="absolute bottom-[10%] flex items-center justify-center md:w-[50%] lg:w-[50%] xl:w-[60%]">
             <button
                 className={`rounded py-1 pr-1 font-sans font-extrabold text-[#001D35] ${currentPage === 1 ? "text-[#D0D0D0]" : "text-[#001D35]"}`}
                 onClick={() => onPageChange(currentPage - 1)}

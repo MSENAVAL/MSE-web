@@ -120,7 +120,20 @@ const Users = () => {
 
     const mobileTable = (
         <div className="p-4">
-            <h1 className="text-bold mb-4 text-xl font-semibold text-primary-blue">Usuários Cadastrados</h1>
+            <div className="flex items-center justify-between">
+                <h1 className="text-bold mb-4 items-center text-xl font-semibold text-primary-blue">
+                    Usuários Cadastrados
+                </h1>
+                <div className="mb-4 flex items-center justify-end">
+                    <Button
+                        className="h-8 w-32 rounded-full bg-secondary-red font-sans text-xs font-bold shadow-md hover:bg-secondary-red/80"
+                        onClick={handleNewUser}
+                    >
+                        <PlusIcon className="mr-1 h-5 w-5" />
+                        Novo cadastro
+                    </Button>
+                </div>
+            </div>
             <div className="overflow-auto">
                 {data.map((user) => (
                     <div
@@ -158,7 +171,7 @@ const Users = () => {
 
             <div className="m-4 grid h-[95%] grid-cols-1 md:grid-cols-1 lg:grid-cols-4 xl:grid-cols-4">
                 <div className="col-span-3 m-4 mb-8 flex h-[90%] w-full flex-col rounded-2xl bg-[#F7F7F7]">
-                    <div className="mx-8 mb-0 mt-8 flex items-center justify-end">
+                    <div className="m-2 mx-8 mb-0 flex items-center justify-end lg:mt-8 xl:mt-8">
                         <Button
                             className="h-10 w-36 rounded-full bg-secondary-red font-sans text-xs font-bold shadow-md hover:bg-secondary-red/80"
                             onClick={handleNewUser}

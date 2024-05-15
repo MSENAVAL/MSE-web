@@ -16,7 +16,7 @@ const DashboardLayout = () => {
                     <Navbar collapsed={collapsed} setCollapsed={setCollapsed} />
                 </div>
                 <div
-                    className={`xs:${collapsed ? "ml-0" : "ml-20"} xs:mr-2 mb-8 ${collapsed ? "ml-20" : "ml-48"} mr-4 mt-16 flex-1 p-2            
+                    className={`xs:${collapsed ? "ml-0" : "ml-20"} xs:mr-2 mb-8 ${collapsed ? "ml-20" : "ml-48"} mr-4 mt-12 flex-1 p-2            
                                 md:${collapsed ? "ml-0" : "ml-20"} sm:mr-6
                                 md:${collapsed ? "ml-0" : "ml-48"} md:mr-8
                                 lg:${collapsed ? "ml-0" : "ml-48"} lg:mr-12
