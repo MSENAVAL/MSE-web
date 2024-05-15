@@ -121,9 +121,9 @@ const Users = () => {
     const mobileTable = (
         <div className="p-4">
             <div className="flex items-center justify-between">
-                <h1 className="text-bold mb-4 items-center text-xl font-semibold text-primary-blue">
+                <h3 className="text-bold mb-4 items-center text-lg font-semibold text-primary-blue">
                     Usuários Cadastrados
-                </h1>
+                </h3>
                 <div className="mb-4 flex items-center justify-end">
                     <Button
                         className="h-8 w-32 rounded-full bg-secondary-red font-sans text-xs font-bold shadow-md hover:bg-secondary-red/80"
