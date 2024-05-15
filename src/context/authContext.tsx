@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { authenticate } from "@/services/auth/authService";
+import { authenticate, checkIsAuthenticated } from "@/services/auth/authService";
 import { LoginResponseData, LoginResponseError } from "@/interfaces/authTypes";
 import { useNavigate } from "react-router-dom";
 
@@ -21,13 +21,18 @@ export const AuthProvider = ({ children }: any) => {
     const [userData, setUserData] = useState({} as LoginResponseData);
 
     useEffect(() => {
-        setIsAuthenticated(!!localStorage.getItem("mseAuthToken"));
+        setIsAuthenticated(!!localStorage.getItem("mseAuthToken") && checkIsAuthenticated());
     }, []);
+
+    useEffect(() => {
+        if (!isAuthenticated) navigate("/");
+    }, [isAuthenticated]);
 
     const login = async (email: string, password: string) => {
         const response = await authenticate(email, password);
         if (response.token) {
             localStorage.setItem("mseAuthToken", response.token);
+            localStorage.setItem("mseTokenExpiresIn", response.expiresIn);
             setIsAuthenticated(true);
             setUserData(response);
         }
@@ -37,6 +42,7 @@ export const AuthProvider = ({ children }: any) => {
 
     const logout = () => {
         localStorage.removeItem("mseAuthToken");
+        localStorage.removeItem("mseTokenExpiresIn");
         setUserData({} as LoginResponseData);
         setIsAuthenticated(false);
         navigate("/");

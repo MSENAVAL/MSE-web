@@ -18,7 +18,19 @@ export const authenticate = async (
     }
 };
 
-export const isAuthenticated = (): boolean => {
+export const checkIsAuthenticated = (): boolean => {
     const authToken = localStorage.getItem("mseAuthToken");
+
+    const currentDate = new Date();
+    const tokenExpiresIn = localStorage.getItem("mseTokenExpiresIn");
+
+    const expirationDate = new Date(tokenExpiresIn || currentDate);
+
+    if (currentDate > expirationDate) {
+        localStorage.removeItem("mseAuthToken");
+        localStorage.removeItem("mseTokenExpiresIn");
+        return false;
+    }
+
     return !!authToken;
 };
