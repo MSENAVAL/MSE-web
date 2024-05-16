@@ -84,7 +84,7 @@ const Navbar = ({
             {!collapsed ? (
                 <div className="mt-8 py-8">
                     <NavItem icon={<UserPlus size={20} />} label="Cadastros" onClick={() => navigate("/users")} />
-                    <NavItem icon={<Building size={20} />} label="Clientes" />
+                    <NavItem icon={<Building size={20} />} label="Clientes" onClick={() => navigate("/customers")} />
                     <NavItem icon={<FileText size={20} />} label="Relatórios" />
                     <NavItem icon={<Ship size={20} />} label="Navios" />
                     <NavItem icon={<LogOut size={20} />} label="Sair" onClick={handleLogout} />
@@ -92,7 +92,7 @@ const Navbar = ({
             ) : (
                 <div className="mt-8 flex w-full flex-col items-center justify-center py-8">
                     <NavItemCollapsed icon={<UserPlus size={20} />} onClick={() => navigate("/users")} />
-                    <NavItemCollapsed icon={<Building size={20} />} />
+                    <NavItemCollapsed icon={<Building size={20} />} onClick={() => navigate("/customers")} />
                     <NavItemCollapsed icon={<FileText size={20} />} />
                     <NavItemCollapsed icon={<Ship size={20} />} />
                     <NavItemCollapsed icon={<LogOut size={20} />} onClick={handleLogout} />

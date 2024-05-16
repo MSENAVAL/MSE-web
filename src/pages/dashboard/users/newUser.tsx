@@ -32,7 +32,45 @@ const NewUser = () => {
         setIsModalOpen(false);
     };
 
+    const validate = () => {
+        if (!name) {
+            toast.error("Nome da empresa é obrigatório", {
+                position: "top-right",
+            });
+            return false;
+        }
+
+        if (!sector) {
+            toast.error("Setor é obrigatório", {
+                position: "top-right",
+            });
+            return false;
+        }
+
+        if (!email) {
+            toast.error("E-mail é obrigatório", {
+                position: "top-right",
+            });
+            return false;
+        }
+
+        if (!reviewer) {
+            toast.error("Autorização para revisar é obrigatório", {
+                position: "top-right",
+            });
+            return false;
+        }
+
+        return true;
+    };
+
     const handleRegisterUser = async () => {
+        if (!validate()) {
+            handleCloseModal();
+            return;
+        }
+
+        handleCloseModal();
         setLoading(true);
 
         const data = {
@@ -46,7 +84,6 @@ const NewUser = () => {
 
         try {
             const response = await createUser(data);
-            console.log("response", response);
             if (response.mensagem) {
                 toast.success(response.mensagem, {
                     position: "top-right",
@@ -72,7 +109,7 @@ const NewUser = () => {
     const mobileLayout = (
         <>
             <div className="m-4 flex flex-col items-center">
-                <h1 className="text-bold text-xl font-semibold text-primary-blue">Usuários cadastrados</h1>
+                <h1 className="text-bold text-xl font-semibold text-primary-blue">Cadastro de Usuário</h1>
                 <div className="mt-4 flex w-full flex-col rounded-2xl bg-[#F7F7F7] p-4">
                     <label className="text-gray-500">Nome</label>
                     <Input
@@ -125,7 +162,7 @@ const NewUser = () => {
                         </SelectContent>
                     </Select>
 
-                    <label className="text-gray-500">Senha</label>
+                    {/* <label className="text-gray-500">Senha</label>
                     <div className="relative">
                         <Input
                             type={showPassword ? "text" : "password"}
@@ -159,7 +196,7 @@ const NewUser = () => {
                         >
                             {showConfirmPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
                         </button>
-                    </div>
+                    </div> */}
 
                     <div className="mt-4 flex w-full flex-col items-center justify-center sm:flex-row">
                         <Button
@@ -199,7 +236,7 @@ const NewUser = () => {
 
     return (
         <>
-            <h1 className="text-bold ml-16 text-xl font-semibold text-primary-blue">Usuários cadastrados</h1>
+            <h1 className="text-bold ml-16 text-xl font-semibold text-primary-blue">Cadastro de Usuário</h1>
             <div className="m-4 mb-0 ml-16 flex h-[95%] w-[95%] flex-col rounded-2xl sm:h-[90%] md:overflow-auto xl:mr-16">
                 <div className="xs:h-[90%] col-span-4 mb-8 flex h-[90%] w-[90%] flex-col rounded-2xl bg-[#F7F7F7] pr-0 sm:h-[90%] md:overflow-auto lg:pr-0 xl:h-[80%] xl:pr-24">
                     <div className="flex w-full flex-col p-8">
@@ -266,7 +303,7 @@ const NewUser = () => {
                                 </Select>
                             </div>
                             <div className="xl:w-1/3" />
-                            <div className="md:ml-4 md:w-1/2 xl:ml-4 xl:w-1/3">
+                            {/* <div className="md:ml-4 md:w-1/2 xl:ml-4 xl:w-1/3">
                                 <label className="ml-2 text-gray-500">Senha</label>
                                 <div className="relative">
                                     <Input
@@ -284,9 +321,9 @@ const NewUser = () => {
                                         {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
                                     </button>
                                 </div>
-                            </div>
+                            </div> */}
                         </div>
-                        <div className="mb-4 ml-20 flex flex-col md:flex-row md:items-center">
+                        {/* <div className="mb-4 ml-20 flex flex-col md:flex-row md:items-center">
                             <div className="md:w-1/2 xl:w-1/3">
                                 <label className="ml-2 text-gray-500">Confirmação de senha</label>
                                 <div className="relative">
@@ -310,7 +347,7 @@ const NewUser = () => {
                                     </button>
                                 </div>
                             </div>
-                        </div>
+                        </div> */}
                     </div>
                 </div>
 

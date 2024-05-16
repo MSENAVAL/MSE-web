@@ -1,43 +1,45 @@
 import { DataTable } from "@/components/DataTable";
 import { userColumns } from "../_tables/userColumns";
-import { listUsers } from "@/services/users/userService";
-import { User } from "@/interfaces/user";
+import { listCustomers } from "@/services/customers/customerService";
+import { Customer } from "@/interfaces/customer";
 import UserIcon from "@/assets/user-icon.svg";
 import { DotIcon, PlusIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Badge } from "@/components/ui/badge";
-import { Skeleton } from "@/components/ui/skeleton";
 import { SkeletonDataTable } from "@/components/SkeletonDataTable";
+import { customerColumns } from "../_tables/customerColumns";
 
-const Users = () => {
+const Customers = () => {
     const navigate = useNavigate();
-    const [users, setUsers] = useState<User[]>([]);
-    const [selectedUser, setSelectedUser] = useState<User | null>(null);
+    const [customers, setCustomers] = useState<Customer[]>([]);
+    const [selectedUser, setSelectedCustomer] = useState<Customer | null>(null);
     const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
     const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
-        const fetchUsers = async () => {
+        const fetchCustomers = async () => {
             setIsLoading(true);
-            const users: User[] = await listUsers();
+            const customers: Customer[] = await listCustomers();
 
-            if (users) setUsers(users);
+            if (customers) setCustomers(customers);
 
             setIsLoading(false);
         };
 
-        if (users.length === 0) fetchUsers();
+        if (customers.length === 0) fetchCustomers();
     }, []);
 
-    const handleNewUser = () => {
+    console.log("customers", customers);
+
+    const handleNewCustomer = () => {
         navigate("register");
     };
 
-    const handleRowClick = (user: User) => {
-        setSelectedUser(user);
-        navigate(`/users/${user.id}`, { state: { user } });
+    const handleRowClick = (customer: Customer) => {
+        setSelectedCustomer(customer);
+        navigate(`/customers/${customer.id}`, { state: { customer } });
     };
 
     useEffect(() => {
@@ -50,12 +52,12 @@ const Users = () => {
         <div className="p-4">
             <div className="flex items-center justify-between">
                 <h3 className="text-bold mb-4 items-center text-lg font-semibold text-primary-blue">
-                    Usuários Cadastrados
+                    Clientes Cadastrados
                 </h3>
                 <div className="mb-4 flex items-center justify-end">
                     <Button
                         className="h-8 w-32 rounded-full bg-secondary-red font-sans text-xs font-bold shadow-md hover:bg-secondary-red/80"
-                        onClick={handleNewUser}
+                        onClick={handleNewCustomer}
                     >
                         <PlusIcon className="mr-1 h-5 w-5" />
                         Novo cadastro
@@ -63,25 +65,26 @@ const Users = () => {
                 </div>
             </div>
             <div className="overflow-auto">
-                {users.map((user) => (
+                {customers.map((customer) => (
                     <div
-                        key={user.id}
+                        key={customer.id}
                         className="mb-4 flex cursor-pointer items-center justify-between rounded-lg bg-white p-4 shadow-md transition-colors hover:bg-gray-100"
-                        onClick={() => handleRowClick(user)}
+                        onClick={() => handleRowClick(customer)}
                     >
                         <div>
-                            <p className="font-semibold">{user.nome}</p>
-                            <p className="text-gray-600">{user.email}</p>
-                            <p className="text-gray-600">{user.setor}</p>
-                            <p className="text-gray-600">
-                                {user.revisor ? "Autorizado para revisar" : "Não autorizado para revisar"}
-                            </p>
+                            <p className="font-semibold">{customer.nome}</p>
+                            <p className="text-gray-600">{customer.cnpj}</p>
+                            <p className="text-gray-600">{customer.email}</p>
                         </div>
                         <Badge
-                            className={`flex w-20 items-center rounded-full bg-opacity-35 p-0 ${user.status ? "hover:bg-#8EC742 hover:text-#365B03 bg-[#8EC742] text-[#365B03]" : "hover:bg-#FB101E hover:text-#790007 bg-[#FB101E] text-[#790007]"}`}
+                            className={`flex w-20 items-center rounded-full bg-opacity-35 p-0 ${customer.status ? "hover:bg-#8EC742 hover:text-#365B03 bg-[#8EC742] text-[#365B03]" : "hover:bg-#FB101E hover:text-#790007 bg-[#FB101E] text-[#790007]"}`}
                         >
-                            {user.status ? <DotIcon className="h-6 w-6 p-0" /> : <DotIcon className="h-6 w-6 p-0" />}
-                            {user.status ? "Ativo" : "Inativo"}
+                            {customer.status ? (
+                                <DotIcon className="h-6 w-6 p-0" />
+                            ) : (
+                                <DotIcon className="h-6 w-6 p-0" />
+                            )}
+                            {customer.status ? "Ativo" : "Inativo"}
                         </Badge>
                     </div>
                 ))}
@@ -95,14 +98,14 @@ const Users = () => {
 
     return (
         <>
-            <h1 className="text-bold ml-8 text-xl font-semibold text-primary-blue">Usuários cadastrados</h1>
+            <h1 className="text-bold ml-8 text-xl font-semibold text-primary-blue">Clientes cadastrados</h1>
 
             <div className="m-4 grid h-[95%] grid-cols-1 md:grid-cols-1 lg:grid-cols-4 xl:grid-cols-4">
                 <div className="col-span-3 m-4 mb-8 flex h-[90%] w-full flex-col rounded-2xl bg-[#F7F7F7]">
                     <div className="m-2 mx-8 mb-0 flex items-center justify-end lg:mt-8 xl:mt-8">
                         <Button
                             className="h-10 w-36 rounded-full bg-secondary-red font-sans text-xs font-bold shadow-md hover:bg-secondary-red/80"
-                            onClick={handleNewUser}
+                            onClick={handleNewCustomer}
                         >
                             <PlusIcon className="mr-1 h-5 w-5" />
                             Novo cadastro
@@ -114,8 +117,8 @@ const Users = () => {
                                 <SkeletonDataTable />
                             ) : (
                                 <DataTable
-                                    columns={userColumns}
-                                    data={users}
+                                    columns={customerColumns}
+                                    data={customers}
                                     rowIcon={UserIcon}
                                     handleRowClick={handleRowClick}
                                 />
@@ -132,4 +135,4 @@ const Users = () => {
     );
 };
 
-export default Users;
+export default Customers;

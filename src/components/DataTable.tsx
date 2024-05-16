@@ -7,9 +7,10 @@ interface BaseRow {
     id: number;
 }
 interface DataTableProps<TData extends BaseRow, TValue> {
-    columns: ColumnDef<TData, TValue>[];
+    columns: ColumnDef<TData, TValue>[] | any;
     data: TData[];
     rowIcon?: string;
+    handleRowClick: (row: TData) => void;
 }
 
 interface PaginationProps {
@@ -18,7 +19,12 @@ interface PaginationProps {
     onPageChange: (page: number) => void;
 }
 
-export function DataTable<TData extends BaseRow, TValue>({ columns, data, rowIcon }: DataTableProps<TData, TValue>) {
+export function DataTable<TData extends BaseRow, TValue>({
+    columns,
+    data,
+    rowIcon,
+    handleRowClick,
+}: DataTableProps<TData, TValue>) {
     const navigate = useNavigate();
     const [currentPage, setCurrentPage] = useState(1);
     const rowsPerPage = 9;
@@ -33,10 +39,6 @@ export function DataTable<TData extends BaseRow, TValue>({ columns, data, rowIco
 
     const handlePageChange = (page: number) => {
         setCurrentPage(page);
-    };
-
-    const handleRowClick = (user: TData) => {
-        navigate(`/users/${user.id}`, { state: { user } });
     };
 
     const paginatedData = data.slice((currentPage - 1) * rowsPerPage, currentPage * rowsPerPage);

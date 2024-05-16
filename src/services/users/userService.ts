@@ -31,6 +31,10 @@ export const listUsers = async (): Promise<User[]> => {
         return response.data;
     } catch (error: Error | any) {
         console.log("error", error);
+        if (error.response.status === 401) {
+            localStorage.removeItem("mseAuthToken");
+            localStorage.removeItem("mseTokenExpiresIn");
+        }
         return [];
     }
 };
