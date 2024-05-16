@@ -7,6 +7,8 @@ import ButtonLoading from "@/components/ButtonLoading";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import ModalDefault from "@/components/ModalDefault";
+import { createUser } from "@/services/users/userService";
+import { toast } from "react-toastify";
 
 const NewUser = () => {
     const navigate = useNavigate();
@@ -28,6 +30,37 @@ const NewUser = () => {
 
     const handleCloseModal = () => {
         setIsModalOpen(false);
+    };
+
+    const handleRegisterUser = async () => {
+        setLoading(true);
+
+        const data = {
+            id: 0,
+            nome: name,
+            email,
+            setor: sector,
+            revisor: reviewer === "sim" ? true : false,
+            status: true,
+        };
+
+        try {
+            const response = await createUser(data);
+            console.log("response", response);
+            if (response.mensagem) {
+                toast.success(response.mensagem, {
+                    position: "top-right",
+                });
+                navigate("/users");
+            }
+        } catch (error: Error | any) {
+            console.log("error", error);
+            toast.error(error.response.data, {
+                position: "top-right",
+            });
+        } finally {
+            setLoading(false);
+        }
     };
 
     useEffect(() => {
@@ -65,13 +98,13 @@ const NewUser = () => {
                             <SelectValue placeholder="Selecione" />
                         </SelectTrigger>
                         <SelectContent>
-                            <SelectItem value="diretoria" className="cursor-pointer font-sans text-sm">
+                            <SelectItem value="Diretoria" className="cursor-pointer font-sans text-sm">
                                 Diretoria
                             </SelectItem>
-                            <SelectItem value="engenharia" className="cursor-pointer font-sans text-sm">
+                            <SelectItem value="Engenharia" className="cursor-pointer font-sans text-sm">
                                 Engenharia
                             </SelectItem>
-                            <SelectItem value="operacional" className="cursor-pointer font-sans text-sm">
+                            <SelectItem value="Operacional" className="cursor-pointer font-sans text-sm">
                                 Operacional
                             </SelectItem>
                         </SelectContent>
@@ -149,9 +182,11 @@ const NewUser = () => {
                     </div>
                 </div>
             </div>
+
             <ModalDefault
                 isOpen={isModalOpen}
                 onClose={handleCloseModal}
+                onConfirm={handleRegisterUser}
                 title="Você finalizou o cadastro do usuário?"
                 mobile={true}
             />
@@ -200,13 +235,13 @@ const NewUser = () => {
                                         <SelectValue placeholder="Selecione" />
                                     </SelectTrigger>
                                     <SelectContent>
-                                        <SelectItem value="diretoria" className="cursor-pointer font-sans text-sm">
+                                        <SelectItem value="Diretoria" className="cursor-pointer font-sans text-sm">
                                             Diretoria
                                         </SelectItem>
-                                        <SelectItem value="engenharia" className="cursor-pointer font-sans text-sm">
+                                        <SelectItem value="Engenharia" className="cursor-pointer font-sans text-sm">
                                             Engenharia
                                         </SelectItem>
-                                        <SelectItem value="operacional" className="cursor-pointer font-sans text-sm">
+                                        <SelectItem value="Operacional" className="cursor-pointer font-sans text-sm">
                                             Operacional
                                         </SelectItem>
                                     </SelectContent>
@@ -303,6 +338,7 @@ const NewUser = () => {
             <ModalDefault
                 isOpen={isModalOpen}
                 onClose={handleCloseModal}
+                onConfirm={handleRegisterUser}
                 title="Você finalizou o cadastro do usuário?"
             />
         </>

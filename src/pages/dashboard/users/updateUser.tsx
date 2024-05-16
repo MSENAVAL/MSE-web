@@ -9,6 +9,8 @@ import { Button } from "@/components/ui/button";
 import UserIcon from "@/assets/user-icon.svg";
 import { Badge } from "@/components/ui/badge";
 import ModalDefault from "@/components/ModalDefault";
+import { deleteUser, updateUser } from "@/services/users/userService";
+import { toast } from "react-toastify";
 
 const UpdateUser = () => {
     const navigate = useNavigate();
@@ -38,6 +40,58 @@ const UpdateUser = () => {
         setIsModalOpen(false);
     };
 
+    const handleUpdateUser = async () => {
+        setLoading(true);
+
+        const data = {
+            id: user.id,
+            nome: name,
+            email,
+            setor: sector,
+            revisor: reviewer === "sim" ? true : false,
+            status,
+        };
+
+        try {
+            const response = await updateUser(data);
+            console.log("response", response);
+            if (response) {
+                toast.success("Usuário atualizado com sucesso!", {
+                    position: "top-right",
+                });
+                navigate("/users");
+            }
+        } catch (error: Error | any) {
+            console.log("error", error);
+            toast.error(error.response.data, {
+                position: "top-right",
+            });
+        } finally {
+            setLoading(false);
+            setIsModalOpen(false);
+        }
+    };
+
+    const handleDeleteUser = async () => {
+        setLoading(true);
+
+        try {
+            await deleteUser(user.id);
+            toast.success("Usuário removido com sucesso", {
+                position: "top-right",
+            });
+        } catch (error: Error | any) {
+            console.log("error", error);
+            toast.error(error.response.data, {
+                position: "top-right",
+            });
+        } finally {
+            setLoading(false);
+            setConfirmDeleteUser(false);
+            navigate("/users");
+        }
+    };
+
     useEffect(() => {
         const handleResize = () => setIsMobile(window.innerWidth <= 768);
         window.addEventListener("resize", handleResize);
@@ -61,6 +115,7 @@ const UpdateUser = () => {
                 <Input
                     type="text"
                     placeholder="E-mail"
+                    disabled
                     className="mb-4 mt-2 h-8 rounded-full bg-transparent px-4 font-sans text-sm"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
@@ -72,13 +127,13 @@ const UpdateUser = () => {
                         <SelectValue placeholder="Selecione" />
                     </SelectTrigger>
                     <SelectContent>
-                        <SelectItem value="diretoria" className="cursor-pointer font-sans text-sm">
+                        <SelectItem value="Diretoria" className="cursor-pointer font-sans text-sm">
                             Diretoria
                         </SelectItem>
-                        <SelectItem value="engenharia" className="cursor-pointer font-sans text-sm">
+                        <SelectItem value="Engenharia" className="cursor-pointer font-sans text-sm">
                             Engenharia
                         </SelectItem>
-                        <SelectItem value="operacional" className="cursor-pointer font-sans text-sm">
+                        <SelectItem value="Operacional" className="cursor-pointer font-sans text-sm">
                             Operacional
                         </SelectItem>
                     </SelectContent>
@@ -178,15 +233,19 @@ const UpdateUser = () => {
             </div>
 
             <ModalDefault
+                loading={loading}
                 isOpen={isModalOpen}
                 onClose={handleCloseModal}
+                onConfirm={handleUpdateUser}
                 title="Você finalizou a edição deste usuário?"
                 mobile
             />
 
             <ModalDefault
+                loading={loading}
                 isOpen={confirmDeleteUser}
                 onClose={() => setConfirmDeleteUser(false)}
+                onConfirm={handleDeleteUser}
                 title="Tem certeza que deseja excluir essa conta?"
                 mobile
             />
@@ -232,6 +291,7 @@ const UpdateUser = () => {
                                 <Input
                                     type="text"
                                     placeholder="E-mail"
+                                    disabled
                                     className="mb-4 mt-2 h-8 rounded-full bg-transparent px-4 font-sans text-sm"
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
@@ -374,13 +434,17 @@ const UpdateUser = () => {
             </div>
 
             <ModalDefault
+                loading={loading}
                 isOpen={isModalOpen}
                 onClose={handleCloseModal}
+                onConfirm={handleUpdateUser}
                 title="Você finalizou a edição deste usuário?"
             />
 
             <ModalDefault
+                loading={loading}
                 isOpen={confirmDeleteUser}
+                onConfirm={handleDeleteUser}
                 onClose={() => setConfirmDeleteUser(false)}
                 title="Tem certeza que deseja excluir essa conta?"
             />

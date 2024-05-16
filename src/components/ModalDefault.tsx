@@ -9,16 +9,27 @@ import {
     AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { Button } from "./ui/button";
+import ButtonLoading from "./ButtonLoading";
 
 interface ModalDefaultProps {
+    loading?: boolean;
     isOpen: boolean;
     onClose: () => void;
+    onConfirm: () => void;
     title: string;
     description?: string;
     mobile?: boolean;
 }
 
-const ModalDefault = ({ isOpen, onClose, title, description = "", mobile = false }: ModalDefaultProps) => {
+const ModalDefault = ({
+    loading = false,
+    isOpen,
+    onClose,
+    onConfirm,
+    title,
+    description = "",
+    mobile = false,
+}: ModalDefaultProps) => {
     return (
         <AlertDialog open={isOpen}>
             <AlertDialogContent>
@@ -46,12 +57,19 @@ const ModalDefault = ({ isOpen, onClose, title, description = "", mobile = false
                     >
                         Não
                     </Button>
-                    <Button
-                        className="h-8 w-24 rounded-full bg-secondary-red font-sans text-xs font-bold hover:bg-secondary-red/80 sm:mb-0 md:mr-4"
-                        onClick={onClose}
-                    >
-                        Sim
-                    </Button>
+                    {loading ? (
+                        <ButtonLoading
+                            title="Salvando..."
+                            className="h-8 w-24 rounded-full bg-secondary-red font-sans text-xs font-bold hover:bg-secondary-red/80 sm:mb-0 md:mr-4"
+                        />
+                    ) : (
+                        <Button
+                            className="h-8 w-24 rounded-full bg-secondary-red font-sans text-xs font-bold hover:bg-secondary-red/80 sm:mb-0 md:mr-4"
+                            onClick={onConfirm}
+                        >
+                            Sim
+                        </Button>
+                    )}
                 </div>
             </AlertDialogContent>
         </AlertDialog>
