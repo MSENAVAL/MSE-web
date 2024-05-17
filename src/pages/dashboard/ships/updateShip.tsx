@@ -1,13 +1,9 @@
 import { useState, useEffect } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { DotIcon } from "lucide-react";
-import { Switch } from "@/components/ui/switch";
 import { Input } from "@/components/ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import ButtonLoading from "@/components/ButtonLoading";
 import { Button } from "@/components/ui/button";
 import ShipIcon from "@/assets/ship-icon.svg";
-import { Badge } from "@/components/ui/badge";
 import ModalDefault from "@/components/ModalDefault";
 import { toast } from "react-toastify";
 import { Ship } from "@/interfaces/ship";
@@ -39,12 +35,12 @@ const UpdateShip = () => {
     };
 
     const validate = () => {
-        // if (!name) {
-        //     toast.error("Nome do navio é obrigatório", {
-        //         position: "top-right",
-        //     });
-        //     return false;
-        // }
+        if (!name) {
+            toast.error("Nome do navio é obrigatório", {
+                position: "top-right",
+            });
+            return false;
+        }
 
         if (!numberIMO) {
             toast.error("Número IMO é obrigatório", {

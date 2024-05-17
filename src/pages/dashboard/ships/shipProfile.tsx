@@ -43,7 +43,7 @@ const ShipProfile = () => {
                                         <Edit className="h-4 w-4 text-white" />
                                     </button>
                                 </div>
-                                <h2 className="ml-2 mt-[-6px]">{ship.nome}</h2>
+                                <h2 className="ml-2 mt-[-6px] text-xs uppercase">{ship.nome}</h2>
                             </div>
                         </div>
                         <div className="mb-4 ml-20 mt-2 flex flex-col md:flex-row md:items-start md:justify-between">
@@ -96,7 +96,7 @@ const ShipProfile = () => {
                                         <Edit className="h-4 w-4 text-white" color="#FFF" />
                                     </button>
                                 </div>
-                                <h2 className="ml-2 mt-[-6px]">{ship.nome}</h2>
+                                <h2 className="ml-2 mt-[-6px] text-sm uppercase">{ship.nome}</h2>
                             </div>
                         </div>
                         <div className="mb-4 ml-20 mt-2 flex flex-col md:flex-row md:items-start md:justify-between">

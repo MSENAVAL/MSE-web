@@ -9,6 +9,7 @@ export interface LoginResponseData {
     userId: string;
     userRole: string;
     clienteCadastrado: any;
+    aceitouTermosDeUso: boolean;
     cadastroUsuario: any;
     expiresIn: string;
     message?: string;
@@ -17,4 +18,5 @@ export interface LoginResponseData {
 export interface LoginResponseError {
     token?: null;
     message: string;
+    aceitouTermosDeUso?: boolean;
 }

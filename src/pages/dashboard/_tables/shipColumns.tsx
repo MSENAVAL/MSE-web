@@ -2,6 +2,7 @@ import { ColumnDef } from "@tanstack/react-table";
 
 export type Ship = {
     id: number;
+    nome?: string;
     numeroIMO: string;
     loa: string;
     b: string;
@@ -11,11 +12,11 @@ export type Ship = {
 };
 
 export const shipColumns: ColumnDef<Ship, any>[] = [
-    // {
-    //     id: "nome",
-    //     header: "Nome",
-    //     accessorKey: "nome",
-    // },
+    {
+        id: "nome",
+        header: "Nome",
+        accessorKey: "nome",
+    },
     {
         id: "numeroIMO",
         header: "n° IMO",

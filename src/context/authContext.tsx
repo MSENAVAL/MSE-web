@@ -7,7 +7,7 @@ const AuthContext = createContext({
     isAuthenticated: false,
     userData: {} as LoginResponseData | null,
     setUserData: (data: LoginResponseData) => {},
-    login: async (email: string, password: string) => {
+    login: async (email: string, password: string, terms?: boolean) => {
         return {} as LoginResponseData | LoginResponseError;
     },
     logout: () => {},
@@ -28,8 +28,22 @@ export const AuthProvider = ({ children }: any) => {
         if (!isAuthenticated) navigate("/");
     }, [isAuthenticated]);
 
-    const login = async (email: string, password: string) => {
+    const login = async (email: string, password: string, terms?: boolean) => {
+        if (terms === true) {
+            const response = await authenticate(email, password, terms);
+            //console.log("response", response);
+            if (response.token) {
+                localStorage.setItem("mseAuthToken", response.token);
+                localStorage.setItem("mseTokenExpiresIn", response.expiresIn);
+                setIsAuthenticated(true);
+                setUserData(response);
+            }
+
+            return response;
+        }
+
         const response = await authenticate(email, password);
+
         if (response.token) {
             localStorage.setItem("mseAuthToken", response.token);
             localStorage.setItem("mseTokenExpiresIn", response.expiresIn);

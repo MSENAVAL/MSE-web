@@ -17,6 +17,7 @@ const Login = () => {
     const [password, setPassword] = useState("T@ste1234");
     const [showPassword, setShowPassword] = useState(false);
     const [loading, setLoading] = useState(false);
+    const [forgotPassword, setForgotPassword] = useState(false);
 
     const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -24,6 +25,7 @@ const Login = () => {
 
         const response: LoginResponseData | LoginResponseError = await login(email, password);
         setLoading(false);
+        //console.log("response", response);
 
         if (!response.token) {
             if (response.message) {
@@ -37,10 +39,64 @@ const Login = () => {
             }
         }
 
-        if (response.token) {
-            navigate("/terms");
+        if (response.token && !response.aceitouTermosDeUso) {
+            navigate("/terms", { state: { email, password } });
+        } else if (response.token) {
+            navigate("/users");
+        }
+
+        if (response.message) {
+            toast.error(response.message, {
+                position: "top-right",
+            });
         }
     };
+
+    if (forgotPassword) {
+        return (
+            <div className="grid h-screen grid-cols-1 bg-primary-blue md:grid-cols-2">
+                <div className="flex flex-col items-center justify-center gap-24">
+                    <div className="mb-8 flex items-center justify-center">
+                        <img src={logo} alt="Logo" className="max-w-full md:min-w-[120%] lg:min-w-[130%]" />
+                    </div>
+                    <main className="flex w-full flex-col items-center justify-center">
+                        <form className="flex w-80 max-w-[400px] flex-col gap-1 p-1 font-sans" onSubmit={handleLogin}>
+                            <label className="text-white">E-mail</label>
+                            <Input
+                                type="text"
+                                placeholder="email.email@gmail.com"
+                                className="mb-4 h-12 rounded-full bg-white px-4 text-base"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                            />
+
+                            {loading ? (
+                                <ButtonLoading className="mt-0 h-12 rounded-full bg-secondary-red font-sans text-base font-bold hover:bg-secondary-red/80" />
+                            ) : (
+                                <Button
+                                    className="mt-0 h-12 rounded-full bg-secondary-red font-sans text-base font-bold hover:bg-secondary-red/80"
+                                    type="submit"
+                                >
+                                    Enviar e-mail
+                                </Button>
+                            )}
+
+                            <div className="mt-4 flex justify-center px-1">
+                                <span className=" text-sm text-white">Lembrou da senha?</span>
+                                <span
+                                    onClick={() => setForgotPassword(false)}
+                                    className="ml-1 cursor-pointer text-sm font-bold text-white hover:underline"
+                                >
+                                    Faça seu login!
+                                </span>
+                            </div>
+                        </form>
+                    </main>
+                </div>
+                <div className="hidden bg-backgroundMse bg-cover bg-no-repeat md:block" />
+            </div>
+        );
+    }
 
     return (
         <div className="grid h-screen grid-cols-1 bg-primary-blue md:grid-cols-2">
@@ -91,9 +147,9 @@ const Login = () => {
                                 <Checkbox id="terms" className="custom-checkbox border-white" />
                                 <span className="ml-2 text-sm text-white">Lembrar da senha</span>
                             </div>
-                            <a href="#" className="text-sm text-white">
+                            <span onClick={() => setForgotPassword(true)} className="cursor-pointer text-sm text-white">
                                 Esqueci a senha
-                            </a>
+                            </span>
                         </div>
                         {loading ? (
                             <ButtonLoading className="mt-8 h-12 rounded-full bg-secondary-red font-sans text-base font-bold hover:bg-secondary-red/80" />
@@ -108,7 +164,7 @@ const Login = () => {
                     </form>
                 </main>
             </div>
-            <div className="bg-backgroundMse hidden bg-cover bg-no-repeat md:block" />
+            <div className="hidden bg-backgroundMse bg-cover bg-no-repeat md:block" />
         </div>
     );
 };

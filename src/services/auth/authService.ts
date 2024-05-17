@@ -4,17 +4,19 @@ import api from "../api";
 export const authenticate = async (
     email: string,
     password: string,
+    terms?: boolean,
 ): Promise<LoginResponseData | LoginResponseError> => {
     try {
         const response = await api.post("/auth/login", {
             email,
             senha: password,
+            aceitouTermosDeUso: terms || undefined,
         });
 
         return response.data;
     } catch (error: Error | any) {
         console.log("error", error);
-        return { message: error.response.data };
+        return { message: "Tivemos um problema ao tentar fazer o login" };
     }
 };
 
