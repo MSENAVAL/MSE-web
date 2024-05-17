@@ -86,7 +86,6 @@ const UpdateUser = () => {
 
         try {
             const response = await updateUser(data);
-            console.log("response", response);
             if (response) {
                 toast.success("Usuário atualizado com sucesso!", {
                     position: "top-right",

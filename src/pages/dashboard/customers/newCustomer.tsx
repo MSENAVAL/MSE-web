@@ -352,6 +352,7 @@ const NewCustomer = () => {
             </div>
 
             <ModalDefault
+                loading={loading}
                 isOpen={isModalOpen}
                 onClose={handleCloseModal}
                 onConfirm={handleCustomerRegister}

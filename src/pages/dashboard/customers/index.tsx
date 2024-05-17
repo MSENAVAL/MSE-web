@@ -31,8 +31,6 @@ const Customers = () => {
         if (customers.length === 0) fetchCustomers();
     }, []);
 
-    console.log("customers", customers);
-
     const handleNewCustomer = () => {
         navigate("register");
     };
@@ -68,10 +66,10 @@ const Customers = () => {
                 {customers.map((customer) => (
                     <div
                         key={customer.id}
-                        className="mb-4 flex cursor-pointer items-center justify-between rounded-lg bg-white p-4 shadow-md transition-colors hover:bg-gray-100"
+                        className="mb-4 flex cursor-pointer items-center justify-between rounded-lg bg-white p-4 font-sans shadow-md transition-colors hover:bg-gray-100"
                         onClick={() => handleRowClick(customer)}
                     >
-                        <div>
+                        <div className="font-sans">
                             <p className="font-semibold">{customer.nome}</p>
                             <p className="text-gray-600">{customer.cnpj}</p>
                             <p className="text-gray-600">{customer.email}</p>

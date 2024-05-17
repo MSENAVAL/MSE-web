@@ -86,7 +86,7 @@ const Navbar = ({
                     <NavItem icon={<UserPlus size={20} />} label="Cadastros" onClick={() => navigate("/users")} />
                     <NavItem icon={<Building size={20} />} label="Clientes" onClick={() => navigate("/customers")} />
                     <NavItem icon={<FileText size={20} />} label="Relatórios" />
-                    <NavItem icon={<Ship size={20} />} label="Navios" />
+                    <NavItem icon={<Ship size={20} />} label="Navios" onClick={() => navigate("/ships")} />
                     <NavItem icon={<LogOut size={20} />} label="Sair" onClick={handleLogout} />
                 </div>
             ) : (
@@ -94,7 +94,7 @@ const Navbar = ({
                     <NavItemCollapsed icon={<UserPlus size={20} />} onClick={() => navigate("/users")} />
                     <NavItemCollapsed icon={<Building size={20} />} onClick={() => navigate("/customers")} />
                     <NavItemCollapsed icon={<FileText size={20} />} />
-                    <NavItemCollapsed icon={<Ship size={20} />} />
+                    <NavItemCollapsed icon={<Ship size={20} />} onClick={() => navigate("/ships")} />
                     <NavItemCollapsed icon={<LogOut size={20} />} onClick={handleLogout} />
                 </div>
             )}
