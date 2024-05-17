@@ -31,7 +31,7 @@ export const userColumns: ColumnDef<User>[] = [
         id: "revisor",
         header: "Revisor",
         accessorKey: "revisor",
-        cell: ({ row }) => (row.original.revisor ? "Sim" : ""),
+        cell: ({ row }) => (row.original.revisor ? "Sim" : "Não"),
     },
     {
         id: "status",

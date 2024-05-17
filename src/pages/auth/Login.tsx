@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import logo from "@/assets/MSE-logo-branca.svg";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -9,18 +9,62 @@ import { useAuth } from "@/context/authContext";
 import { Eye, EyeOff } from "react-feather";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import ModalCookies from "@/components/ModalCookies";
+import Cookies from "js-cookie";
 
 const Login = () => {
     const { login } = useAuth();
     const navigate = useNavigate();
-    const [email, setEmail] = useState("Admin02@teste.com");
-    const [password, setPassword] = useState("T@ste1234");
+    const [email, setEmail] = useState("Admin02@teste.com"); // Admin02@teste.com"
+    const [password, setPassword] = useState("T@ste1234"); // T@ste1234
     const [showPassword, setShowPassword] = useState(false);
     const [loading, setLoading] = useState(false);
     const [forgotPassword, setForgotPassword] = useState(false);
+    const [modalCookies, setModalCookies] = useState(false);
+
+    useEffect(() => {
+        const cookieConsent = Cookies.get("cookieConsent");
+        console.log("cookieConsent", cookieConsent);
+        if (!cookieConsent || cookieConsent === undefined) {
+            setModalCookies(true);
+        }
+    }, []);
+
+    const isValidEmail = (email: string) => {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
+    };
+
+    const validate = () => {
+        if (!email) {
+            toast.error("O campo e-mail é obrigatório", {
+                position: "top-right",
+            });
+            return false;
+        }
+
+        if (!isValidEmail(email)) {
+            toast.error("O e-mail informado é inválido", {
+                position: "top-right",
+            });
+            return false;
+        }
+
+        if (!password) {
+            toast.error("O campo senha é obrigatório", {
+                position: "top-right",
+            });
+            return false;
+        }
+
+        return true;
+    };
 
     const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+
+        if (!validate()) return;
+
         setLoading(true);
 
         const response: LoginResponseData | LoginResponseError = await login(email, password);
@@ -50,6 +94,18 @@ const Login = () => {
                 position: "top-right",
             });
         }
+    };
+
+    const handleForgotPassword = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        setLoading(true);
+
+        // await forgotPassword(email);
+        // setLoading(false);
+        // toast.success("E-mail enviado com sucesso", {
+        //     position: "top-right",
+        // });
+        // setForgotPassword(false);
     };
 
     if (forgotPassword) {
@@ -165,6 +221,8 @@ const Login = () => {
                 </main>
             </div>
             <div className="hidden bg-backgroundMse bg-cover bg-no-repeat md:block" />
+
+            <ModalCookies isOpen={modalCookies} />
         </div>
     );
 };

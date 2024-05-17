@@ -55,13 +55,6 @@ const UpdateUser = () => {
             return false;
         }
 
-        if (!reviewer) {
-            toast.error("Autorização para revisar é obrigatório", {
-                position: "top-right",
-            });
-            return false;
-        }
-
         return true;
     };
 

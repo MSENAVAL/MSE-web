@@ -1,10 +1,7 @@
 import {
     AlertDialog,
-    AlertDialogAction,
-    AlertDialogCancel,
     AlertDialogContent,
     AlertDialogDescription,
-    AlertDialogFooter,
     AlertDialogHeader,
     AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
@@ -33,7 +30,6 @@ const ModalDefault = ({
     return (
         <AlertDialog open={isOpen}>
             <AlertDialogContent>
-                {/* Botão fechar à direita*/}
                 <button className="absolute right-4 top-4 rounded-full border border-[#001D35] p-1" onClick={onClose}>
                     <svg
                         xmlns="http://www.w3.org/2000/svg"

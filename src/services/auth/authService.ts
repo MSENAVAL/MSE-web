@@ -16,7 +16,7 @@ export const authenticate = async (
         return response.data;
     } catch (error: Error | any) {
         console.log("error", error);
-        return { message: "Tivemos um problema ao tentar fazer o login" };
+        return error.message;
     }
 };
 
