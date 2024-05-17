@@ -31,7 +31,6 @@ export const AuthProvider = ({ children }: any) => {
     const login = async (email: string, password: string, terms?: boolean) => {
         if (terms === true) {
             const response = await authenticate(email, password, terms);
-            //console.log("response", response);
             if (response.token) {
                 localStorage.setItem("mseAuthToken", response.token);
                 localStorage.setItem("mseTokenExpiresIn", response.expiresIn);
