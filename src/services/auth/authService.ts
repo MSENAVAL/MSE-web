@@ -13,6 +13,12 @@ export const authenticate = async (
             aceitouTermosDeUso: terms || undefined,
         });
 
+        if (terms)
+            await api.post("/auth/aceitar-termos-de-uso", {
+                email,
+                aceitouTermosDeUso: terms,
+            });
+
         return response.data;
     } catch (error: Error | any) {
         console.log("error", error);
